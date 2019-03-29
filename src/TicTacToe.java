@@ -7,9 +7,9 @@ public class TicTacToe {
     private static char[][] map; // матрица игры
     private static int size = 3; // размерность поля
 
-    private static final char dot_empty = ' '; // пустой символ - свободное поле
-    private static final char dot_x = 'X'; // крестик
-    private static final char dot_o = 'O'; // нолик
+    private static final char DOT_EMPTY = ' '; // пустой символ - свободное поле, константы (final) пишутся в верхнем регистре и в пробелах ставим _
+    private static final char DOT_X = 'X'; // крестик
+    private static final char DOT_O = 'O'; // нолик
 
     private static Scanner scanner = new Scanner(System.in);
 
@@ -20,12 +20,12 @@ public class TicTacToe {
 
         while(true) {
             humanTurn(); // ход человека
-            if (isEndGame(dot_x)) {
+            if (isEndGame(DOT_X)) {
                 break;
             }
 
 //            computerTurn();// ход компьютера
-//            if (isEndGame(dot_o)) {
+//            if (isEndGame(DOT_O)) {
 //                 break;
 //            }
         }
@@ -38,7 +38,7 @@ public class TicTacToe {
         map = new char[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                map[i][j] = dot_empty;
+                map[i][j] = DOT_EMPTY;
             }
         }
     }
@@ -71,7 +71,7 @@ public class TicTacToe {
             x = scanner.nextInt() - 1;
         } while (!isCellValid(x, y));
 
-        map[y][x] = dot_x;
+        map[y][x] = DOT_X;
     }
     /*
         Метод валидации запрашиваемой ячейки на корректность
@@ -88,7 +88,7 @@ public class TicTacToe {
         }
 
         //проверка заполненности ячейки
-        if (map[y][x] != dot_empty) {
+        if (map[y][x] != DOT_EMPTY) {
             result = false;
         }
         return result;
@@ -124,7 +124,7 @@ public class TicTacToe {
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                if (map[i][j] == dot_empty) {
+                if (map[i][j] == DOT_EMPTY) {
                     result = false;
                 }
             }
