@@ -13,7 +13,7 @@ public class TicTacToe {
     private static final char DOT_X = 'X'; // крестик
     private static final char DOT_O = 'O'; // нолик
 
-    private static final boolean SILLY_MODE = false;
+    private static final boolean SILLY_MODE = true;
 
     private static Scanner scanner = new Scanner(System.in);
     private static Random random = new Random();
