@@ -7,7 +7,7 @@ public class TicTacToe {
     private static char[][] map; // матрица игры
     private static int size = 3; // размерность поля
 
-    private static final char DOT_EMPTY = ' '; // пустой символ - свободное поле, константы (final) пишутся в верхнем регистре и в пробелах ставим _
+    private static final char DOT_EMPTY = ' '; // пустой символ - свободное поле, константы (final) пишутся в верхнем регистре и вместо пробелов ставим "_"
     private static final char DOT_X = 'X'; // крестик
     private static final char DOT_O = 'O'; // нолик
 
@@ -19,15 +19,16 @@ public class TicTacToe {
         printMap();
 
         while(true) {
-            humanTurn(); // ход человека
+
+            humanTurn();      // ход человека
             if (isEndGame(DOT_X)) {
                 break;
             }
 
-//            computerTurn();// ход компьютера
-//            if (isEndGame(DOT_O)) {
-//                 break;
-//            }
+//          computerTurn();   // ход компьютера
+//          if (isEndGame(DOT_O)) {
+//              break;
+//          }
         }
         System.out.println(" Игра закончена");
     }
@@ -46,13 +47,13 @@ public class TicTacToe {
       Метод вывода игрового поля на экран
     */
     private static void printMap() {
-        for (int i = 0; i <= size; i++) {
+        for (int i = 0; i <= size; i++) { // выводим сверху по горизонтали номера ячеек для удобства их определения человеком 1,2,3
             System.out.print(i + " ");
         }
         System.out.println();
 
         for (int i = 0; i < size; i++) {
-            System.out.print((i + 1) + " ");
+            System.out.print((i + 1) + " "); // выводим слева по вертикали номера ячеек для удобства их определения человеком 1,2,3
             for (int j = 0; j < size; j++) {
                 System.out.print(map[i][j] + " ");
             }
@@ -128,6 +129,7 @@ public class TicTacToe {
                     result = false;
                 }
             }
+
         }
         return result;
     }
@@ -150,6 +152,6 @@ public class TicTacToe {
                 (map[2][0] == playerSymbol && map[1][1] == playerSymbol && map[0][2] == playerSymbol)) {
             result = true;
         }
-        return true;
+        return result;
     }
 }
