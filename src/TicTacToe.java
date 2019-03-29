@@ -1,3 +1,5 @@
+import javax.sound.midi.Soundbank;
+import java.util.Random;
 import java.util.Scanner;
 
 public class TicTacToe {
@@ -11,7 +13,10 @@ public class TicTacToe {
     private static final char DOT_X = 'X'; // крестик
     private static final char DOT_O = 'O'; // нолик
 
+    private static final boolean SILLY_MODE = false;
+
     private static Scanner scanner = new Scanner(System.in);
+    private static Random random = new Random();
 
     public static void main(String[] args) {
 
@@ -20,15 +25,15 @@ public class TicTacToe {
 
         while(true) {
 
-            humanTurn();      // ход человека
+            humanTurn();  // ход человека
             if (isEndGame(DOT_X)) {
                 break;
             }
 
-//          computerTurn();   // ход компьютера
-//          if (isEndGame(DOT_O)) {
-//              break;
-//          }
+          computerTurn();  // ход компьютера
+          if (isEndGame(DOT_O)) {
+              break;
+          }
         }
         System.out.println(" Игра закончена");
     }
@@ -73,6 +78,28 @@ public class TicTacToe {
         } while (!isCellValid(x, y));
 
         map[y][x] = DOT_X;
+    }
+    /*
+     Ход компьютера
+   */
+    private static void computerTurn() {
+        int x = -1;
+        int y = -1;
+        if (SILLY_MODE) {
+            do {
+                x = random.nextInt(size);
+                y = random.nextInt(size);
+            } while (!isCellValid(x, y));
+        } else {
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    // проверяем клетки по направлениям
+                }
+            }
+        }
+
+        System.out.println("Компьютер выбрал ячейку " + (y + 1) + " " + (x + 1));
+        map[y][x] = DOT_O;
     }
     /*
         Метод валидации запрашиваемой ячейки на корректность
