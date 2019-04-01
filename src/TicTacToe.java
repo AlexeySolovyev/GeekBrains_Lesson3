@@ -5,39 +5,39 @@ public class TicTacToe {
     /*
       Блок настроек игры
     */
-    private static char[][] map; // матрица игры
-    private static int size = 3; // размерность поля
+    private static char[][] map; // матрица поля игры
+    private static int size = 3; // размерность поля игры
 
     private static final char DOT_EMPTY = ' '; // пустой символ - свободное поле, константы (final) пишутся в верхнем регистре и вместо пробелов ставим "_"
     private static final char DOT_X = 'X'; // крестик
     private static final char DOT_O = 'O'; // нолик
 
-    private static final boolean SILLY_MODE = true;
+    private static final boolean SILLY_MODE = true; // переключение программы в "глупый режим" для компьютера
 
     private static Scanner scanner = new Scanner(System.in);
     private static Random random = new Random();
 
     public static void main(String[] args) {
 
-        initMap();
-        printMap();
+        initMap(); // инициализация игрового поля
+        printMap(); // отображаем поле на экран
 
-        while(true) {
+        while(true) {   // цикл игры
 
-            humanTurn();  // ход человека
-            if (isEndGame(DOT_X)) {
-                break;
+            humanTurn();  // ход человека, фаза 1
+            if (isEndGame(DOT_X)) { // если игра закончилась
+                break; // прерываем ход игры
             }
 
-          computerTurn();  // ход компьютера
-          if (isEndGame(DOT_O)) {
-              break;
+          computerTurn();  // ход компьютера, фаза 2
+          if (isEndGame(DOT_O)) { // если игра закончилась
+              break; // прерываем хлд игры
           }
         }
         System.out.println(" Игра закончена");
     }
     /*
-      Метод подготовки игрового поля
+      Метод подготовки (инициализации) игрового поля
     */
     private static void initMap() {
         map = new char[size][size];
