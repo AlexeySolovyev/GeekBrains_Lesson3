@@ -7,12 +7,13 @@ public class TicTacToe {
     */
     private static char[][] map; // матрица поля игры
     private static int size = 3; // размерность поля игры
+    private static boolean compFirstTurn = true;
 
     private static final char DOT_EMPTY = ' '; // пустой символ - свободное поле, константы (final) пишутся в верхнем регистре и вместо пробелов ставим "_"
     private static final char DOT_X = 'X'; // крестик
     private static final char DOT_O = 'O'; // нолик
 
-    private static final boolean SILLY_MODE = true; // переключение программы в "глупый режим" для компьютера
+    private static final boolean SILLY_MODE = false; // переключение программы в "глупый режим" для компьютера
 
     private static Scanner scanner = new Scanner(System.in);
     private static Random random = new Random();
@@ -82,26 +83,61 @@ public class TicTacToe {
      Ход компьютера
    */
     private static void computerTurn() {
-        int x = -1;
-        int y = -1;
+
         if (SILLY_MODE) {
+            int x = -1;
+            int y = -1;
             do {
                 x = random.nextInt(size);
                 y = random.nextInt(size);
             } while (!isCellValid(x, y));
+
+            System.out.println("Компьютер выбрал ячейку " + (x + 1) + " " + (x + 1));
+            map[y][x] = DOT_O;
         } else {
-            for (int i = 0; i < size; i++) {
-                for (int j = 0; j < size; j++) {
 
-                    // проверяем клетки по направлениям
+            boolean isGoodPosition = false;
+            while (!isGoodPosition)
+            {
+                int x = random.nextInt(size);
+                int y = random.nextInt(size);
 
+                if (map[x][y] == DOT_X) {
+                    continue;
+                }
+
+                if (!compFirstTurn)
+                {
+                    if (map[x][y] != DOT_O)
+                    {
+                        continue;
+                    }
+                }
+
+                for (int nextX = GetMin(x); nextX <= GetMax(x) && !isGoodPosition; nextX++)
+                {
+                    for (int nextY = GetMin(y); nextY <= GetMax(y) && !isGoodPosition; nextY++)
+                    {
+                        if (map[nextX][nextY] == DOT_EMPTY)
+                        {
+                            isGoodPosition = true;
+                            map[nextX][nextY]  = DOT_O;
+
+                        }
+                    }
                 }
             }
         }
-
-        System.out.println("Компьютер выбрал ячейку " + (y + 1) + " " + (x + 1));
-        map[y][x] = DOT_O;
     }
+    private static int GetMax(int coord) {
+        return coord == size - 1 ?  size - 1 : coord + 1;
+    }
+
+    private static int GetMin(int coord)
+    {
+        return coord == 0 ? 0 : coord - 1;
+    }
+
     /*
         Метод валидации запрашиваемой ячейки на корректность
         @param x - координата по горизонтали
