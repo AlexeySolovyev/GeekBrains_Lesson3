@@ -7,13 +7,13 @@ public class TicTacToe {
     */
     private static char[][] map; // матрица поля игры
     private static int size = 3; // размерность поля игры
-    private static boolean compFirstTurn = true;
 
     private static final char DOT_EMPTY = ' '; // пустой символ - свободное поле, константы (final) пишутся в верхнем регистре и вместо пробелов ставим "_"
     private static final char DOT_X = 'X'; // крестик
     private static final char DOT_O = 'O'; // нолик
 
     private static final boolean SILLY_MODE = false; // переключение программы в "глупый режим" для компьютера
+    private static final boolean SCORING_MODE = true; // переключение программы в smart режим для компьютера
 
     private static Scanner scanner = new Scanner(System.in);
     private static Random random = new Random();
@@ -83,61 +83,109 @@ public class TicTacToe {
      Ход компьютера
    */
     private static void computerTurn() {
-
+        int x = -1;
+        int y = -1;
         if (SILLY_MODE) {
-            int x = -1;
-            int y = -1;
+
             do {
                 x = random.nextInt(size);
                 y = random.nextInt(size);
             } while (!isCellValid(x, y));
-
-            System.out.println("Компьютер выбрал ячейку " + (x + 1) + " " + (x + 1));
-            map[y][x] = DOT_O;
         } else {
+            // Компьютер ищет свой ход
+            // Компьютер решает, можно ли продолжить последовательность для выигрыша
 
-            boolean isGoodPosition = false;
-            while (!isGoodPosition)
-            {
-                int x = random.nextInt(size);
-                int y = random.nextInt(size);
+            if (!SCORING_MODE) {
+                // Маркер того, что ход найден
+                boolean moveFound = false;
+                // Упрощенный алгоритм
+                for (int i = 0; i < size; i++) {
+                    for (int j = 0; j < size; j++) {
+                        if (map[i][j] == DOT_EMPTY) {
 
-                if (map[x][y] == DOT_X) {
-                    continue;
-                }
+                            // проверяем направления
+                            // влево вверх
+                            if (i - 1 >= 0 && j - 1 >= 0 && map[i - 1][j - 1] == DOT_O) {
+                                y = i;
+                                x = j;
+                                moveFound = true;
+                                System.out.println("LU");
+                            }
+                            // вверх
+                            else if (i - 1 >= 0 && map[i - 1][j] == DOT_O) {
+                                y = i;
+                                x = j;
+                                moveFound = true;
+                                System.out.println("U");
+                            }
+                            // вправо вверх
+                            else if (i - 1 >= 0 && j + 1 < size && map[i - 1][j + 1] == DOT_O) {
+                                y = i;
+                                x = j;
+                                moveFound = true;
+                                System.out.println("RU");
+                            }
+                            // вправо
+                            else if (j + 1 < size && map[i][j + 1] == DOT_O) {
+                                y = i;
+                                x = j;
+                                moveFound = true;
+                                System.out.println("R");
+                            }
+                            // вправо вниз
+                            else if (i + 1 < size && j + 1 < size && map[i + 1][j + 1] == DOT_O) {
+                                y = i;
+                                x = j;
+                                moveFound = true;
+                                System.out.println("RD");
+                            }
+                            // вниз
+                            else if (i + 1 < size && map[i + 1][j] == DOT_O) {
+                                y = i;
+                                x = j;
+                                moveFound = true;
+                                System.out.println("D");
+                            }
+                            // лево вниз
+                            else if (i + 1 < size && j - 1 >= 0 && map[i + 1][j - 1] == DOT_O) {
+                                y = i;
+                                x = j;
+                                moveFound = true;
+                                System.out.println("LD");
+                            }
+                            // влево
+                            else if (j - 1 >= 0 && map[i][j - 1] == DOT_O) {
+                                y = i;
+                                x = j;
+                                moveFound = true;
+                                System.out.println("L");
+                            }
+                        }
 
-                if (!compFirstTurn)
-                {
-                    if (map[x][y] != DOT_O)
-                    {
-                        continue;
-                    }
-                }
-
-                for (int nextX = GetMin(x); nextX <= GetMax(x) && !isGoodPosition; nextX++)
-                {
-                    for (int nextY = GetMin(y); nextY <= GetMax(y) && !isGoodPosition; nextY++)
-                    {
-                        if (map[nextX][nextY] == DOT_EMPTY)
-                        {
-                            isGoodPosition = true;
-                            map[nextX][nextY]  = DOT_O;
-
+                        // если ход найден, прерываем внутренний цикл
+                        if (moveFound) {
+                            break;
                         }
                     }
+
+                    // если ход найден, перываем внешний цикл
+                    if (moveFound) {
+                        break;
+                    }
+                }
+                // если ничего не нашли, делаем глупый ход
+                if (x == -1) {
+                    do {
+                        x = random.nextInt(size);
+                        y = random.nextInt(size);
+                    } while (!isCellValid(x, y));
+                    System.out.println("Random");
                 }
             }
+            System.out.println("Компьютер выбрал ячейку " + (y + 1) + " " + (x + 1));
+            map[y][x] = DOT_O;
         }
     }
-    private static int GetMax(int coord) {
-        return coord == size - 1 ?  size - 1 : coord + 1;
-    }
-
-    private static int GetMin(int coord)
-    {
-        return coord == 0 ? 0 : coord - 1;
-    }
-
     /*
         Метод валидации запрашиваемой ячейки на корректность
         @param x - координата по горизонтали
