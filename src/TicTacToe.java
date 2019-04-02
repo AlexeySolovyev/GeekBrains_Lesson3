@@ -95,14 +95,14 @@ public class TicTacToe {
             // Компьютер ищет свой ход
             // Компьютер решает, можно ли продолжить последовательность для выигрыша
 
-            if (!SCORING_MODE) {
+            if (SCORING_MODE) {
                 // Маркер того, что ход найден
                 boolean moveFound = false;
+
                 // Упрощенный алгоритм
                 for (int i = 0; i < size; i++) {
                     for (int j = 0; j < size; j++) {
                         if (map[i][j] == DOT_EMPTY) {
-
                             // проверяем направления
                             // влево вверх
                             if (i - 1 >= 0 && j - 1 >= 0 && map[i - 1][j - 1] == DOT_O) {
@@ -161,13 +161,11 @@ public class TicTacToe {
                                 System.out.println("L");
                             }
                         }
-
                         // если ход найден, прерываем внутренний цикл
                         if (moveFound) {
                             break;
                         }
                     }
-
                     // если ход найден, перываем внешний цикл
                     if (moveFound) {
                         break;
